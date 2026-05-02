@@ -18,6 +18,9 @@ git clone <repo-url> my-app
 cd my-app
 ```
 
+Rename the project name inside the `docker-compose.yml` file
+(the first line - `name: last-boiler`)
+
 **2. Start the containers:**
 
 ```bash
