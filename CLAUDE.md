@@ -73,4 +73,6 @@ Tests use SQLite in-memory (`DB_DATABASE=:memory:`), so no database setup is nee
 - **Frontend** — Vite with Tailwind CSS v4 (via `@tailwindcss/vite`) and Alpine.js. `tailwindcss` v4 must be present at the top level to avoid conflict with `@tailwindcss/forms`. PostCSS config is intentionally absent (not needed in v4).
 - **Docker** — config in `docker/`. The PHP-FPM container includes Composer and Node.js. MySQL data persists in `docker/mysql/` (bind mount). Redis service name is `redis`.
 - **No API routes** — only `routes/web.php`, `routes/auth.php`, and `routes/console.php` are registered. Add `api: __DIR__.'/../routes/api.php'` in `bootstrap/app.php` to enable API routing.
+- **Service providers** — registered in `bootstrap/providers.php`, not `config/app.php` as in older Laravel versions.
 - **Middleware and exception handling** — configured via closures directly in `bootstrap/app.php`, not in separate Kernel classes.
+- **Health check** — a `/up` endpoint is registered automatically via `bootstrap/app.php`.
