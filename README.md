@@ -1,58 +1,107 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Boilerplate
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel 13 starter kit with authentication, Docker, and a minimal Blade + Tailwind CSS frontend.
 
-## About Laravel
+**Includes out of the box:**
+- Auth via Laravel Breeze: register, login, logout, password reset, email verification, profile page
+- Docker setup: PHP-FPM (with Composer + Node.js), Nginx, MySQL 8, Redis
+- Tailwind CSS v4 + Alpine.js via Vite
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Setup
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+**1. Clone the repo and go into the project folder:**
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone <repo-url> my-app
+cd my-app
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+**2. Start the containers:**
 
-## Contributing
+```bash
+cd docker
+make up
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**3. Run the first-time setup** (installs dependencies, sets up `.env`, runs migrations, builds assets):
 
-## Code of Conduct
+```bash
+make setup
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The app is now running at **http://localhost:8000**.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Daily Use
 
-## License
+All `make` commands are run from the `docker/` folder.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Command | Description |
+|---|---|
+| `make up` | Start containers |
+| `make down` | Stop containers |
+| `make restart` | Restart containers |
+| `make bash` | Open a shell inside the app container |
+| `make migrate` | Run migrations |
+| `make migrate-fresh` | Drop all tables, re-migrate, and seed |
+| `make artisan args="..."` | Run any Artisan command |
+| `make composer args="..."` | Run any Composer command |
+| `make npm args="..."` | Run any npm command |
+| `make npm-build` | Build frontend assets |
+
+**Examples:**
+
+```bash
+make artisan args="make:controller PostController"
+make artisan args="route:list"
+make composer args="require spatie/laravel-permission"
+make npm args="install my-package"
+```
+
+---
+
+## Environment
+
+The `.env` file is created automatically during `make setup` from `.env.example`. The default values match the Docker services and require no changes to get started.
+
+| Variable | Default | Notes |
+|---|---|---|
+| `DB_HOST` | `mysql` | Docker service name |
+| `DB_DATABASE` | `last_boiler` | |
+| `DB_USERNAME` | `laravel` | |
+| `DB_PASSWORD` | `secret` | |
+| `REDIS_HOST` | `redis` | Docker service name |
+
+---
+
+## Running Tests
+
+Tests use an in-memory SQLite database and do not require Docker to be running.
+
+```bash
+# From the project root (with PHP available locally)
+composer test
+
+# Or from inside the container
+make bash
+php artisan test
+```
+
+---
+
+## Database Persistence
+
+MySQL data is stored in `docker/mysql/` via a bind mount. Destroying and recreating the MySQL container will not lose data. To reset the database, run `make migrate-fresh` or delete the contents of `docker/mysql/`.
+
+---
+
+## Code Style
+
+```bash
+# From inside the container
+make bash
+./vendor/bin/pint
+```

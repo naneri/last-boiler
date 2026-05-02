@@ -10,6 +10,9 @@ up:
 down:
 	$(COMPOSE) down
 
+destroy:
+	$(COMPOSE) down --rmi all --remove-orphans
+
 restart:
 	$(COMPOSE) restart
 
@@ -53,4 +56,4 @@ setup:
 	$(APP) npm install
 	$(APP) npm run build
 
-.PHONY: up down restart build bash artisan migrate migrate-fresh composer npm npm-build npm-dev setup
+.PHONY: up down destroy restart build bash artisan migrate migrate-fresh composer npm npm-build npm-dev setup
