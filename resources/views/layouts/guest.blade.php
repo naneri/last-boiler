@@ -10,13 +10,15 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-light">
-        <div class="min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-            <div class="mb-4">
-                <a href="/">
-                    <x-application-logo style="height: 5rem; width: auto;" />
+        <nav class="navbar navbar-light bg-white border-bottom shadow-sm">
+            <div class="container-xl">
+                <a class="navbar-brand" href="/">
+                    <x-application-logo style="height: 2.25rem; width: auto;" />
                 </a>
             </div>
+        </nav>
 
+        <div class="d-flex flex-column align-items-center justify-content-center py-5">
             <div class="card shadow-sm w-100" style="max-width: 28rem;">
                 <div class="card-body p-4">
                     {{ $slot }}
